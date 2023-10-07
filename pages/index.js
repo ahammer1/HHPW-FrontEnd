@@ -15,7 +15,7 @@ export default function Home() {
     getAllTheProducts();
   }, []);
 
-  console.log(products);
+  console.log('products', products);
 
   return (
     <div className="text-center my-4">
