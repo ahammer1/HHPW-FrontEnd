@@ -7,11 +7,11 @@ export default function EditProduct() {
   const [editItem, setEditItem] = useState({});
   const router = useRouter();
 
-  const { firebaseKey } = router.query;
+  const { id } = router.query;
 
   useEffect(() => {
-    getSingleProduct(firebaseKey).then(setEditItem);
-  }, [firebaseKey]);
+    getSingleProduct(id).then(setEditItem);
+  }, [id]);
 
   return (<ProductForm obj={editItem} />);
 }

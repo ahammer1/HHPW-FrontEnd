@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
@@ -6,10 +6,14 @@ import { deleteProduct } from '../api/productData';
 
 export default function ProductCard({ productObj, onUpdate }) {
   const deleteThisProduct = () => {
-    if (window.confirm(`Delete ${productObj.Name}?`)) {
-      deleteProduct(productObj.Id).then(() => onUpdate());
+    if (window.confirm(`Delete ${productObj.name}?`)) {
+      deleteProduct(productObj.id).then(() => onUpdate());
     }
   };
+
+  useEffect(() => {
+    console.log('hello', productObj);
+  }, []);
 
   return (
     <Card
@@ -17,20 +21,20 @@ export default function ProductCard({ productObj, onUpdate }) {
       style={{ width: '18rem', margin: '10px' }}
     >
       <Card.Body>
-        <Card.Name style={{ textAlign: 'center', marginBottom: '10px' }}>
-          {productObj.Name}
-        </Card.Name>
+        <Card style={{ textAlign: 'center', marginBottom: '10px' }}>
+          {productObj.name}
+        </Card>
         <p className="card-text bold" style={{ marginBottom: '5px' }}>
-          {productObj.Price}
+          {productObj.price}
         </p>
         <p className="card-text" style={{ marginBottom: '15px' }}>
-          {productObj.Description}
+          {productObj.description}
         </p>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <Button variant="dark" className="mr-2" href={`/product/${productObj.Id}`}>
+          <Button variant="dark" className="mr-2" href={`/product/${productObj.id}`}>
             VIEW
           </Button>
-          <Button variant="dark" className="mr-2" href={`/product/Edit/${productObj.Id}`}>
+          <Button variant="dark" className="mr-2" href={`/product/Edit/${productObj.id}`}>
             EDIT
           </Button>
           <Button variant="dark" onClick={deleteThisProduct}>
@@ -44,10 +48,10 @@ export default function ProductCard({ productObj, onUpdate }) {
 
 ProductCard.propTypes = {
   productObj: PropTypes.shape({
-    Name: PropTypes.string,
-    Price: PropTypes.number,
-    Description: PropTypes.string,
-    Id: PropTypes.number,
+    name: PropTypes.string,
+    price: PropTypes.number,
+    description: PropTypes.string,
+    id: PropTypes.number,
   }).isRequired,
   onUpdate: PropTypes.func.isRequired,
 };
