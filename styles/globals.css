@@ -20,3 +20,25 @@ a {
 body {
   background-color: #88effd;
 }
+.hoverable-card .btn {
+  opacity: 0; /* Initially hide the buttons */
+  transition: opacity 0.3s ease-in-out; /* Add a transition effect */
+}
+
+.hoverable-card:hover .btn {
+  opacity: 1; /* Show the buttons on hover */
+}
+
+.hoverable-card .button-container {
+  opacity: 0; /* Initially hide the buttons */
+  transition: opacity 0.3s ease-in-out; /* Add a transition effect */
+}
+
+.hoverable-card:hover .button-container {
+  opacity: 1; /* Show the buttons on hover */
+}
+
+.hoverable-card {
+  background-color: transparent;
+  color:antiquewhite
+}

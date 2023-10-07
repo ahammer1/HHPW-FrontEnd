@@ -1,27 +1,33 @@
+import React, { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { Button } from 'react-bootstrap';
-import { signOut } from '../utils/auth';
-import { useAuth } from '../utils/context/authContext';
+import ProductCard from '../components/ProductCard';
+import { getProducts } from '../api/productData';
 
-function Home() {
-  const { user } = useAuth();
+export default function Home() {
+  const [products, setProducts] = useState([]);
+
+  const getAllTheProducts = () => {
+    getProducts().then(setProducts);
+  };
+
+  useEffect(() => {
+    getAllTheProducts();
+  }, []);
+
+  console.log(products);
+
   return (
-    <div
-      className="text-center d-flex flex-column justify-content-center align-content-center"
-      style={{
-        height: '90vh',
-        padding: '30px',
-        maxWidth: '400px',
-        margin: '0 auto',
-      }}
-    >
-      <h1>Hello {user.fbUser.displayName}! </h1>
-      <p>Your Bio: {user.bio}</p>
-      <p>Click the button below to logout!</p>
-      <Button variant="danger" type="button" size="lg" className="copy-btn" onClick={signOut}>
-        Sign Out
-      </Button>
+    <div className="text-center my-4">
+      <Link href="/product/newProduct" passHref>
+        <Button variant="dark">Add A Product</Button>
+      </Link>
+      <div className="d-flex flex-wrap">
+        {products.map((product) => (
+          <ProductCard key={product.id} productObj={product} onUpdate={getAllTheProducts} />
+        ))}
+      </div>
+
     </div>
   );
 }
-
-export default Home;
