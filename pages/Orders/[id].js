@@ -1,20 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-// import Card from 'react-bootstrap/Card';
 import { Button } from 'react-bootstrap';
 import { useRouter } from 'next/router';
-import { getSingleProduct } from '../../api/productData';
-// import { viewProductDetails } from '../../api/mergedData';
+import { getSingleOrder } from '../../api/OrderData';
 
-export default function ViewProduct() {
-  const [productDetails, setProductDetails] = useState({});
+export default function ViewOrder() {
+  const [orderDetails, setOrderDetails] = useState({});
 
   const router = useRouter();
 
   const { id } = router.query;
 
   useEffect(() => {
-    getSingleProduct(id).then(setProductDetails);
+    getSingleOrder(id).then(setOrderDetails);
   }, [id]);
 
   return (
@@ -28,9 +26,7 @@ export default function ViewProduct() {
             <Button variant="dark">Add To Order?</Button>
           </Link>
           <div className="text-white mt-5 details">
-            <h2 className="card-title bold">{productDetails.name}</h2>
-            <p className="card-text bold">{productDetails.price}</p>
-            <p className="card-text bold">{productDetails.description}</p>
+            <h2 className="card-title bold">{orderDetails.name}</h2>
           </div>
         </div>
       </div>

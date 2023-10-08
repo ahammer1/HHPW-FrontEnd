@@ -5,15 +5,13 @@ import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 import { Button } from 'react-bootstrap';
 import { useAuth } from '../utils/context/authContext';
-import { createProduct, updateProduct } from '../api/productData';
+import { createOrder, updateOrder } from '../api/OrderData';
 
 const initialState = {
-  description: '',
-  price: '',
   name: '',
 };
 
-function ProductForm({ obj }) {
+function OrderForm({ obj }) {
   const [formInput, setFormInput] = useState(initialState);
   const router = useRouter();
   const { user } = useAuth();
@@ -35,14 +33,14 @@ function ProductForm({ obj }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (obj.id) {
-      updateProduct(formInput)
-        .then(() => router.push('/'));
+      updateOrder(formInput)
+        .then(() => router.push('/orders'));
     } else {
       const payload = { ...formInput, uid: user.uid };
-      createProduct(payload).then(({ name }) => {
+      createOrder(payload).then(({ name }) => {
         const patchPayload = { id: name };
-        updateProduct(patchPayload).then(() => {
-          router.push('/');
+        updateOrder(patchPayload).then(() => {
+          router.push('/orders');
         });
       });
     }
@@ -51,10 +49,10 @@ function ProductForm({ obj }) {
   return (
     // eslint-disable-next-line react/jsx-filename-extension
     <Form onSubmit={handleSubmit}>
-      <h2 className="text-white mt-5">{obj.id ? 'Update' : 'Create'} Product</h2>
+      <h2 className="text-white mt-5">{obj.id ? 'Update' : 'Create'} Order</h2>
 
       {/* TITLE INPUT  */}
-      <FloatingLabel controlId="floatingInput1" label="Product Name" className="mb-3">
+      <FloatingLabel controlId="floatingInput1" label="Order Name" className="mb-3">
         <Form.Control
           type="text"
           placeholder="Enter a Name"
@@ -65,48 +63,21 @@ function ProductForm({ obj }) {
         />
       </FloatingLabel>
 
-      {/* TITLE INPUT  */}
-      <FloatingLabel controlId="floatingInput1" label="Price" className="mb-3">
-        <Form.Control
-          type="text"
-          placeholder="Enter a price"
-          name="price"
-          value={formInput.price}
-          onChange={handleChange}
-          required
-        />
-      </FloatingLabel>
-
-      {/* DESCRIPTION TEXTAREA  */}
-      <FloatingLabel controlId="floatingTextarea" label="Description" className="mb-3">
-        <Form.Control
-          as="textarea"
-          placeholder="Description"
-          style={{ height: '100px' }}
-          name="description"
-          value={formInput.description}
-          onChange={handleChange}
-          required
-        />
-      </FloatingLabel>
-
       {/* SUBMIT BUTTON  */}
-      <Button type="submit">{obj.id ? 'Update' : 'Create'} Product</Button>
+      <Button type="submit">{obj.id ? 'Update' : 'Create'} Order</Button>
     </Form>
   );
 }
 
-ProductForm.propTypes = {
+OrderForm.propTypes = {
   obj: PropTypes.shape({
     name: PropTypes.string,
-    price: PropTypes.number,
-    description: PropTypes.string,
     id: PropTypes.string,
   }),
 };
 
-ProductForm.defaultProps = {
+OrderForm.defaultProps = {
   obj: initialState,
 };
 
-export default ProductForm;
+export default OrderForm;

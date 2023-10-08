@@ -12,7 +12,7 @@ export default function ProductCard({ productObj, onUpdate }) {
   };
 
   useEffect(() => {
-    console.log('hello', productObj);
+    console.log('products', productObj);
   }, []);
 
   return (
