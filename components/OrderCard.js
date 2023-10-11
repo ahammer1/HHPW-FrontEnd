@@ -1,8 +1,28 @@
 import PropTypes from 'prop-types';
 import { Card, Button } from 'react-bootstrap';
 import Link from 'next/link';
+import { deleteOrder } from '../api/OrderData';
+// import createProductOrders from '../api/PO';
 
-export default function OrderCard({ ordObj }) {
+export default function OrderCard({ ordObj, onUpdate }) {
+  const deleteThisOrder = () => {
+    if (window.confirm(`Delete ${ordObj.name}?`)) {
+      deleteOrder(ordObj.id).then(() => onUpdate());
+    }
+  };
+
+  // const addToOrder = () => {
+  //   const orderId = ordObj.id;
+  //   const productId = productObj.id;
+  //   createProductOrders(orderId, productId)
+  //     .then(() => {
+  //       onUpdate();
+  //     })
+  //     .catch((error) => {
+  //       console.error('Error adding product to order:', error);
+  //     });
+  // };
+
   return (
     <Card
       className="hoverable-card"
@@ -24,6 +44,13 @@ export default function OrderCard({ ordObj }) {
               VIEW
             </Button>
           </Link>
+          <Button variant="dark" className="mr-2" href={`/Orders/Edit/${ordObj.id}`}>
+            EDIT
+          </Button>
+          <Button variant="dark" onClick={deleteThisOrder}>
+            DELETE
+          </Button>
+          {/* <Button onClick={addToOrder}>Add to Order</Button> */}
         </div>
       </Card.Body>
     </Card>
@@ -37,4 +64,8 @@ OrderCard.propTypes = {
     paymentId: PropTypes.string,
     name: PropTypes.string,
   }).isRequired,
+  productObj: PropTypes.shape({
+    id: PropTypes.number,
+  }).isRequired,
+  onUpdate: PropTypes.func.isRequired,
 };

@@ -1,33 +1,34 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Button } from 'react-bootstrap';
-import ProductCard from '../components/ProductCard';
-import { getProducts } from '../api/productData';
+import { getOrders } from '../api/OrderData';
+import OrderCard from '../components/OrderCard';
 
-export default function Home() {
-  const [products, setProducts] = useState([]);
+export default function NewOrder() {
+  const [Orders, setOrders] = useState([]);
 
-  const getAllTheProducts = () => {
-    getProducts().then(setProducts);
+  const getAllOrder = () => {
+    getOrders().then(setOrders);
   };
 
   useEffect(() => {
-    getAllTheProducts();
+    getAllOrder();
   }, []);
-
-  console.log('products', products);
 
   return (
     <div className="text-center my-4">
-      <Link href="/product/newProduct" passHref>
-        <Button variant="dark">Add A Product</Button>
+      <Link href="/Orders/newOrder" passHref>
+        <Button variant="dark">Add A Order</Button>
       </Link>
       <div className="d-flex flex-wrap">
-        {products.map((product) => (
-          <ProductCard key={product.id} productObj={product} onUpdate={getAllTheProducts} />
-        ))}
+        {Orders && Orders.length > 0 ? (
+          Orders.map((Order) => (
+            <OrderCard key={Order.Id} ordObj={Order} onUpdate={getOrders} />
+          ))
+        ) : (
+          <p>No orders available.</p>
+        )}
       </div>
-
     </div>
   );
 }

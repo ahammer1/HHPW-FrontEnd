@@ -25,7 +25,12 @@ const deleteOrder = (id) => new Promise((resolve, reject) => {
       'Content-Type': 'application/json',
     },
   })
-    .then((data) => resolve(data))
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`Failed to delete order. Status: ${response.status}`);
+      }
+      resolve(response);
+    })
     .catch(reject);
 });
 
@@ -53,13 +58,13 @@ const createOrder = (orderObj) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-const updateOrder = (id) => new Promise((resolve, reject) => {
-  fetch(`${dbUrl}/orders/${id}`, {
+const updateOrder = (order) => new Promise((resolve, reject) => {
+  fetch(`${dbUrl}/orders/${order.id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(id),
+    body: JSON.stringify(order), // Send the entire order object as JSON
   })
     .then(resolve)
     .catch(reject);

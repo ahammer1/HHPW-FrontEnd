@@ -3,8 +3,8 @@ import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
+import { propTypes } from 'react-bootstrap/esm/Image';
 import { Button } from 'react-bootstrap';
-import { useAuth } from '../utils/context/authContext';
 import { createProduct, updateProduct } from '../api/productData';
 
 const initialState = {
@@ -13,10 +13,10 @@ const initialState = {
   name: '',
 };
 
-function ProductForm({ obj }) {
+function ProductForm({ obj, orderId }) {
   const [formInput, setFormInput] = useState(initialState);
   const router = useRouter();
-  const { user } = useAuth();
+  // const { user } = useAuth();
 
   useEffect(() => {
     if (obj.id) {
@@ -36,13 +36,13 @@ function ProductForm({ obj }) {
     e.preventDefault();
     if (obj.id) {
       updateProduct(formInput)
-        .then(() => router.push('/'));
+        .then(() => router.push(`/Orders/${obj.id}`));
     } else {
-      const payload = { ...formInput, uid: user.uid };
+      const payload = { ...formInput, id: orderId };
       createProduct(payload).then(({ name }) => {
         const patchPayload = { id: name };
         updateProduct(patchPayload).then(() => {
-          router.push('/');
+          router.push(`/Orders/${obj.id}`);
         });
       });
     }
@@ -97,6 +97,7 @@ function ProductForm({ obj }) {
 }
 
 ProductForm.propTypes = {
+  orderId: propTypes.number,
   obj: PropTypes.shape({
     name: PropTypes.string,
     price: PropTypes.number,
@@ -107,6 +108,7 @@ ProductForm.propTypes = {
 
 ProductForm.defaultProps = {
   obj: initialState,
+  orderId: '',
 };
 
 export default ProductForm;

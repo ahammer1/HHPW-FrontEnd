@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import { deleteProduct } from '../api/productData';
+// import createProductOrders from '../api/PO';
 
 export default function ProductCard({ productObj, onUpdate }) {
   const deleteThisProduct = () => {
@@ -10,6 +11,16 @@ export default function ProductCard({ productObj, onUpdate }) {
       deleteProduct(productObj.id).then(() => onUpdate());
     }
   };
+
+  // const addToOrder = () => {
+  //   const orderId = orderObj.id;
+  //   const productId = productObj.id;
+  //   if (window.confirm(`Add ${productObj.name}?`)) {
+  //     createProductOrders(orderId, productId).then(() => {
+  //       onUpdate();
+  //     });
+  //   }
+  // };
 
   useEffect(() => {
     console.log('products', productObj);
@@ -40,6 +51,7 @@ export default function ProductCard({ productObj, onUpdate }) {
           <Button variant="dark" onClick={deleteThisProduct}>
             DELETE
           </Button>
+          {/* <Button onClick={addToOrder} href="/selectOrder">Add to Order</Button> */}
         </div>
       </Card.Body>
     </Card>
@@ -53,5 +65,11 @@ ProductCard.propTypes = {
     description: PropTypes.string,
     id: PropTypes.number,
   }).isRequired,
+  // orderObj: PropTypes.shape({
+  //   id: PropTypes.number,
+  //   // statusId: PropTypes.string,
+  //   paymentId: PropTypes.string,
+  //   name: PropTypes.string,
+  // }).isRequired,
   onUpdate: PropTypes.func.isRequired,
 };
