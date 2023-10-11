@@ -34,7 +34,7 @@ function OrderForm({ obj }) {
     e.preventDefault();
     if (obj.id) {
       updateOrder(formInput)
-        .then(() => router.push('/orders'));
+        .then(() => router.push(`/Orders/${obj.id}`));
     } else {
       const payload = { ...formInput, uid: user.uid };
       createOrder(payload).then(({ name }) => {
@@ -72,7 +72,7 @@ function OrderForm({ obj }) {
 OrderForm.propTypes = {
   obj: PropTypes.shape({
     name: PropTypes.string,
-    id: PropTypes.string,
+    id: PropTypes.number,
   }),
 };
 
